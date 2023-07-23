@@ -1,16 +1,17 @@
-import dj_database_url
-import urllib.parse
+import os
 import secrets
 import sys
-import os
+import urllib.parse
 from pathlib import Path
-from pydantic_settings import BaseSettings
+
+import dj_database_url
 from pydantic import AnyUrl, EmailStr, Field
+from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-v-%xb5aw2jed2xw#-@2a5d55u5n!s2^km0pqij-6@a)8)$@#np"
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list[str] = []
 ENV_FILE = os.environ.get(
     "HBD_ENV_FILE", "test.env" if "pytest" in sys.modules else ".env"
 )
@@ -192,8 +193,8 @@ if SETUP.EMAIL_SERVER:
         EMAIL_HOST_PASSWORD = str(SETUP.EMAIL_SERVER).split("://")[1]
         EMAIL_USE_TLS = True
     elif parsed.scheme == "smtp":
-        EMAIL_HOST = parsed.hostname
-        EMAIL_PORT = parsed.port
+        EMAIL_HOST = parsed.hostname  # type: ignore
+        EMAIL_PORT = parsed.port  # type: ignore
         if parsed.username is not None:
             EMAIL_HOST_USER = urllib.parse.unquote(parsed.username)
         if parsed.password is not None:

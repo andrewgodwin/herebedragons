@@ -1,8 +1,7 @@
 from django.contrib.gis import admin
-from django.contrib.gis.db import models
 from django.contrib.gis.admin.options import GeoModelAdminMixin
 
-from tracking.models import Source, Entity, Location, Route, RoutePoint
+from tracking.models import Entity, Location, Route, RoutePoint, Source
 
 
 @admin.register(Location)
