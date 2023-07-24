@@ -3,7 +3,7 @@ name: Docker Image
 on: [push]
 
 env:
-  IMAGE: "andrewgodwin/aeracode"
+  IMAGE: "herebedragons"
   IMAGE_TAG: ""
   GOOGLECLOUD_PROJECT: ${{ secrets.GOOGLECLOUD_PROJECT }}
   GOOGLECLOUD_EMAIL: ${{ secrets.GOOGLECLOUD_EMAIL }}
@@ -31,7 +31,7 @@ jobs:
 
       # Add version to the local settings file
       - name: Save version number
-        run: echo "VERSION='`git rev-parse --short HEAD`'" >> aerasite/settings/local.py
+        run: echo "VERSION='`git rev-parse --short HEAD`'" >> herebedragons/settings_local.py
 
       # Build the Docker image
       - name: Build
@@ -46,4 +46,4 @@ jobs:
       # Deploy to Google Cloud Run
       - name: Deploy
         run: |
-          gcloud run deploy aeracode --quiet --image gcr.io/$GOOGLECLOUD_PROJECT/$IMAGE:$IMAGE_TAG --platform managed --region us-central1 --project $GOOGLECLOUD_PROJECT
+          gcloud run deploy herebedragons --quiet --image gcr.io/$GOOGLECLOUD_PROJECT/$IMAGE:$IMAGE_TAG --platform managed --region us-central1 --project $GOOGLECLOUD_PROJECT
