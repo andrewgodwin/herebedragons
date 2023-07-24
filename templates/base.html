@@ -15,19 +15,16 @@
         <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     </head>
     <body class="{% block body_class %}{% endblock %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-        <main>
-            <header>
-                <menu>
-                    Menu
-                </menu>
-            </header>
+        <header>
+        </header>
 
+        <main>
             {% block content %}
             {% endblock %}
         </main>
 
         <footer>
-            By Andrew Godwin
+            By <a href="https://aeracode.org">Andrew Godwin</a>
         </footer>
 
     </body>

@@ -14,7 +14,7 @@ class Entity(models.Model):
     owners = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     public = models.BooleanField(default=False)
-    public_inaccuracy = models.IntegerField(default=1000)  # In metres
+    public_accuracy = models.IntegerField(default=1000)  # In metres
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

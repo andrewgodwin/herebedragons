@@ -40,7 +40,7 @@ class Location(models.Model):
         # First, convert to spherical mercator
         sm_point = self.where.transform(SRID_SPHMERC, clone=True)
         # Round it according to the accuracy setting
-        accuracy = self.entity.public_inaccuracy
+        accuracy = self.entity.public_accuracy
         inacc_point = Point(
             (int(sm_point.x / accuracy) + 0.5) * accuracy,
             (int(sm_point.y / accuracy) + 0.5) * accuracy,

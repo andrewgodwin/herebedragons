@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h2 class="sub">Location</h2>
     <h1>{{ entity.name }}</h1>
 
-    <div id="map" style="width: 300px; height: 300px;"></div>
-    <script>
-        var map = L.map('map').setView([{{ latitude }}, {{ longitude }}], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-    </script>
+    {% include "_map.html" %}
+
+    <table class="stats">
+        <tr>
+            <th>Last Report</th>
+            <td>{{ point.when|timesince }} ago</td>
+        </tr>
+        <tr>
+            <th>Accuracy</th>
+            <td>{{ entity.public_accuracy }} metres</td>
+        </tr>
+    </table>
 {% endblock %}

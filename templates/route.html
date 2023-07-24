@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="sub">Route</h2>
+    <h1>{{ route.name }}</h1>
+
+    {% if route.description %}
+        <p>{{ route.description|safe }}</p>
+    {% endif %}
+
+    <table class="route">
+        {% for route_item in route_items %}
+            {% if route_item.type == "route_point" %}
+                <tr class="marker">
+                    <td><div class="marker-icon"></div></td>
+                    <td class="label {% if route_item.here %}here{% endif %}">
+                        {{ route_item.route_point.name }}
+                        {% if route_item.here %}
+                            (current location)
+                        {% elif route_item.route_point.eta %}
+                            <small>(arr. {{ route_item.route_point.eta|date:"D j F" }})</small>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% elif route_item.type == "segment" %}
+                <tr class="segment">
+                    <td><div class="segment-icon"></div></td>
+                    {% if route_item.here %}
+                        <td class="label here">In Transit ({{ route_item.percent }})</td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+    {% include "_map.html" %}
+
+    <table class="stats">
+        {% if distance_to_stop %}
+            <tr>
+                <th>Distance to next stop</th>
+                <td>{{ distance_to_stop|floatformat }} km</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <th>Last Report</th>
+            <td>{{ point.when|timesince }} ago</td>
+        </tr>
+        {% if route.starts %}
+            <tr>
+                <th>Start Date</th>
+                <td>{{ route.starts|date:"D j F Y" }}</td>
+            </tr>
+        {% endif %}
+        {% if route.ends %}
+            <tr>
+                <th>End Date</th>
+                <td>{{ route.ends|date:"D j F Y" }}</td>
+            </tr>
+        {% endif %}
+    </table>
+{% endblock %}

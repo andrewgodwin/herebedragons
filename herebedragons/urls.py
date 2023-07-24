@@ -21,5 +21,7 @@ from tracking import views as tracking_views
 
 urlpatterns = [
     path("entity/<id>/", tracking_views.entity_view),
+    path("route/<id>/", tracking_views.route_view),
+    path("source/<id>/fetch/", tracking_views.source_fetch),
     path("admin/", admin.site.urls),
 ]

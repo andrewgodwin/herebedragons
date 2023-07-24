@@ -1,0 +1,43 @@
+<div id="map" class="map"></div>
+<script>
+    {% if point %}
+        {% with point.inaccurate_long_lat as longlat %}
+            var map = L.map('map').setView([{{ longlat.1 }}, {{ longlat.0 }}], 10);
+        {% endwith %}
+    {% else %}
+        var map = L.map('map').setView([40, -105], 6);
+    {% endif %}
+    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 0,
+        maxZoom: 18,
+        ext: 'png'
+    }).addTo(map);
+    {% if point %}
+        {% with point.inaccurate_long_lat as longlat %}
+            var marker = L.marker([{{ longlat.1 }}, {{ longlat.0 }}, {
+                zIndexOffset: 1000
+            }]).addTo(map);
+            {% if entity.public_accuracy > 10 %}
+                var circle = L.circle([{{ longlat.1 }}, {{ longlat.0 }}], {
+                    color: '#369',
+                    fillColor: '#359',
+                    fillOpacity: 0.2,
+                    radius: {{ entity.public_accuracy }},
+                    zIndexOffset: 1000
+                }).addTo(map);
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+    {% if route %}
+        L.polyline({{ route_line }}, {color: '#772222'}).addTo(map);
+        var markers = [];
+        {% for latlong in route_line %}
+            var marker = L.marker([{{ latlong.0 }}, {{ latlong.1 }}]).addTo(map);
+            marker._icon.classList.add("red-marker");
+            markers.push(marker);
+        {% endfor %}
+        map.fitBounds(L.featureGroup(markers).getBounds());
+    {% endif %}
+</script>
