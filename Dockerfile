@@ -37,7 +37,7 @@ RUN mkdir -p /cache
 COPY . /hbd
 WORKDIR /hbd
 
-RUN python3 manage.py collectstatic --noinput
+RUN HBD_SECRET_KEY="x" python3 manage.py collectstatic --noinput
 
 EXPOSE 8000
 
