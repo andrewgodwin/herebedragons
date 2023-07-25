@@ -41,6 +41,9 @@ class Settings(BaseSettings):
     #: If set, a list of hosts to accept for CSRF.
     CSRF_HOSTS: list[str] = Field(default_factory=list)
 
+    # The key to provide for fetches to be triggered
+    FETCH_KEY: str = ""
+
     EMAIL_SERVER: AnyUrl = AnyUrl("console://localhost")
     EMAIL_FROM: EmailStr = "test@example.com"
     ERROR_EMAILS: list[EmailStr] | None = None

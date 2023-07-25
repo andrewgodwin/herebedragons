@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
@@ -101,6 +102,8 @@ def route_view(request, id):
 
 
 def source_fetch(request, id):
+    if request.GET.get("key", "") != settings.SETUP.FETCH_KEY:
+        return HttpResponse("Wrong key.", status=400)
     source = get_object_or_404(Source, id=id)
     source.fetch()
     return HttpResponse("Fetched.")
