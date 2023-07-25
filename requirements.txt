@@ -4,6 +4,7 @@ django-debug-toolbar~=3.8.1
 django-htmx~=1.13.0
 django~=4.2.0
 fastkml~=0.12
+gunicorn~=21.2.0
 httpx~=0.23
 psycopg~=3.1.8
 pydantic-settings~=2.0.0
