@@ -4,8 +4,19 @@ from django.shortcuts import get_object_or_404, render
 from tracking.models import Entity, Route, Source
 
 
+def index(request):
+    return render(
+        request,
+        "index.html",
+        {
+            "entities": Entity.objects.filter(public=True),
+            "routes": Route.objects.filter(public=True),
+        },
+    )
+
+
 def entity_view(request, id):
-    entity = get_object_or_404(Entity, id=id)
+    entity = get_object_or_404(Entity, id=id, public=True)
     recent_point = entity.most_recent_location()
     return render(
         request,
@@ -19,7 +30,7 @@ def entity_view(request, id):
 
 
 def route_view(request, id):
-    route = get_object_or_404(Route, id=id)
+    route = get_object_or_404(Route, id=id, public=True)
 
     # Work out if we're at a point along the route
     recent_point = route.entity.most_recent_location()

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="sub">Homepage</h2>
+    <h1>Here Be Dragons</h1>
+
+    {% if entities %}
+        <h2>Entities</h2>
+        <ul>
+            {% for entity in entities %}
+                <li><a href="/entity/{{ entity.id }}/">{{ entity.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if routes %}
+        <h2>Routes</h2>
+        <ul>
+            {% for route in routes %}
+                <li><a href="/route/{{ route.id }}/">{{ route.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

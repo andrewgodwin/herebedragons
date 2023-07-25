@@ -20,6 +20,7 @@ from django.urls import path
 from tracking import views as tracking_views
 
 urlpatterns = [
+    path("", tracking_views.index),
     path("entity/<id>/", tracking_views.entity_view),
     path("route/<id>/", tracking_views.route_view),
     path("source/<id>/fetch/", tracking_views.source_fetch),

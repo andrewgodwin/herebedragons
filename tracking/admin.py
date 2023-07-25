@@ -18,7 +18,7 @@ class LocationAdmin(admin.GISModelAdmin):
 
 @admin.register(Entity)
 class EntityAdmin(admin.GISModelAdmin):
-    list_display = ["id", "name", "created"]
+    list_display = ["id", "name", "public", "created"]
     list_display_links = ["id", "name"]
 
 
@@ -40,6 +40,6 @@ class RoutePointInline(GeoModelAdminMixin, admin.StackedInline):
 
 @admin.register(Route)
 class RouteAdmin(admin.GISModelAdmin):
-    list_display = ["id", "name", "created"]
+    list_display = ["id", "name", "public", "created"]
     list_display_links = ["id", "name"]
     inlines = [RoutePointInline]

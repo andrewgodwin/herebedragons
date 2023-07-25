@@ -16,6 +16,7 @@ class Route(models.Model):
 
     name = models.CharField(max_length=200)
     description = models.TextField()
+    public = models.BooleanField(default=False)
 
     starts = models.DateTimeField(blank=True, null=True)
     ends = models.DateTimeField(blank=True, null=True)
