@@ -3,7 +3,7 @@ if [ -z "$SKIPMIGRATIONS" ]; then
 fi
 
 if [ ! -z "$DJANGO_SUPERUSER_PASSWORD" ]; then
-    python manage.py createsuperuser --username andrew --password "$SUPERUSERPASSWORD" --email andrew@aeracode.org --noinput
+    python manage.py createsuperuser --username andrew --email andrew@aeracode.org --noinput
 fi
 
 gunicorn herebedragons.wsgi:application -b "0.0.0.0:$PORT"
