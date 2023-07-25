@@ -38,6 +38,9 @@ class Settings(BaseSettings):
     #: by default, so you'll logout everytime the process restarts.
     SECRET_KEY: str = Field(default_factory=lambda: "autokey-" + secrets.token_hex(128))
 
+    #: If set, a list of hosts to accept for CSRF.
+    CSRF_HOSTS: list[str] = Field(default_factory=list)
+
     EMAIL_SERVER: AnyUrl = AnyUrl("console://localhost")
     EMAIL_FROM: EmailStr = "test@example.com"
     ERROR_EMAILS: list[EmailStr] | None = None
@@ -74,6 +77,7 @@ if not SETUP.DEBUG and SETUP.SECRET_KEY.startswith("autokey-"):
     sys.exit(1)
 SECRET_KEY = SETUP.SECRET_KEY
 DEBUG = SETUP.DEBUG
+CSRF_TRUSTED_ORIGINS = SETUP.CSRF_HOSTS
 
 # Application definition
 
