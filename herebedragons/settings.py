@@ -11,7 +11,7 @@ from pydantic_settings import BaseSettings
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-v-%xb5aw2jed2xw#-@2a5d55u5n!s2^km0pqij-6@a)8)$@#np"
 DEBUG = True
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS: list[str] = ["*"]
 ENV_FILE = os.environ.get(
     "HBD_ENV_FILE", "test.env" if "pytest" in sys.modules else ".env"
 )
