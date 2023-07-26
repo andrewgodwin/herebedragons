@@ -30,7 +30,10 @@
             {% endif %}
         {% endwith %}
     {% endif %}
-    {% if route %}
+    {% if track_line %}
+        L.polyline({{ track_line }}, {color: '#258'}).addTo(map);
+    {% endif %}
+    {% if route_line %}
         L.polyline({{ route_line }}, {color: '#772222'}).addTo(map);
         var markers = [];
         {% for latlong in route_line %}

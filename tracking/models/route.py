@@ -2,6 +2,8 @@ from django.contrib.gis.db import models
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 
+from tracking.models import Location
+
 
 class Route(models.Model):
     """
@@ -38,13 +40,28 @@ class Route(models.Model):
         )
         if len(route_points) < 2:
             return route_points, 0
-        # Order the list by distance to find the two closest ones
-        sorted_points = sorted(route_points, key=lambda p: p.distance.m)
+        # Go through the list in pairs and find the two with the lowest distance
+        lowest = None
+        for first, second in zip(route_points, route_points[1:]):
+            total_distance = first.distance.m + second.distance.m
+            if lowest is None or total_distance < lowest[2]:
+                lowest = (first, second, total_distance)
         # Work out the ratio between them and return that
-        ratio = sorted_points[0].distance.m / (
-            sorted_points[0].distance.m + sorted_points[1].distance.m
-        )
-        return route_points, min(sorted_points[0].order, sorted_points[1].order) + ratio
+        first, second, _ = lowest  # type: ignore
+        ratio = first.distance.m / (first.distance.m + second.distance.m)
+        return route_points, first.order + ratio
+
+    def valid_locations(self) -> models.QuerySet[Location]:
+        """
+        Returns entity locations that we think are valid in the route
+        (i.e. date bounded)
+        """
+        queryset = self.entity.locations
+        if self.starts:
+            queryset = queryset.filter(when__gte=self.starts)
+        if self.ends:
+            queryset = queryset.filter(when__lte=self.ends)
+        return queryset
 
 
 class RoutePoint(models.Model):

@@ -87,6 +87,12 @@ def route_view(request, id):
     for route_point in route_points:
         route_line.append([route_point.location.y, route_point.location.x])
 
+    # Build the track points for JS
+    track_line = []
+    for location in route.valid_locations().order_by("-when")[:100]:
+        long, lat = location.inaccurate_long_lat()
+        track_line.append([lat, long])
+
     return render(
         request,
         "route.html",
@@ -95,6 +101,7 @@ def route_view(request, id):
             "point": recent_point,
             "route_items": route_items,
             "route_line": route_line,
+            "track_line": track_line,
             "route": route,
             "distance_to_stop": distance_to_stop,
         },
