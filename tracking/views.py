@@ -92,7 +92,7 @@ def route_view(request, id):
 
     # Build the track points for JS
     track_line = []
-    for location in route.valid_locations().order_by("-when")[:100]:
+    for location in route.valid_locations().order_by("-when")[:200]:
         long, lat = location.inaccurate_long_lat()
         track_line.append([lat, long])
 
