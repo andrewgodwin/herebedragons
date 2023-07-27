@@ -52,6 +52,9 @@ def route_view(request, id):
                 {"type": "route_point", "route_point": first, "here": True}
             )
             point_placed = True
+            # Remove here from all previous things in case there was one already
+            for item in route_items:
+                item["here"] = False
         else:
             route_items.append({"type": "route_point", "route_point": first})
         # Is it in this segment?
