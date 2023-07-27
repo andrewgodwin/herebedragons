@@ -48,13 +48,14 @@ def route_view(request, id):
     for first, second in zip(route_points, route_points[1:]):
         # Is it at this first point?
         if first.distance.m <= first.radius:
+            # Remove here from all previous things in case there was one already
+            for item in route_items:
+                item["here"] = False
+            # Add it
             route_items.append(
                 {"type": "route_point", "route_point": first, "here": True}
             )
             point_placed = True
-            # Remove here from all previous things in case there was one already
-            for item in route_items:
-                item["here"] = False
         else:
             route_items.append({"type": "route_point", "route_point": first})
         # Is it in this segment?
