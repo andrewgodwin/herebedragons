@@ -29,6 +29,7 @@ class SourceAdmin(admin.GISModelAdmin):
 
 class RoutePointInline(GeoModelAdminMixin, admin.StackedInline):
     model = RoutePoint
+    ordering = ["order"]
     gis_widget_kwargs = {
         "attrs": {
             "default_lat": 40,

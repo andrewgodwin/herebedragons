@@ -41,11 +41,16 @@ class Route(models.Model):
         if len(route_points) < 2:
             return route_points, 0
         # Go through the list in pairs and find the two with the lowest distance
+        # ratio (not absolute distance, as then shorter segments "win")
+        # Note that GEOS does NOT use spherical distances, so don't use this
+        # for a polar expedition, I guess?
         lowest = None
         for first, second in zip(route_points, route_points[1:]):
             total_distance = first.distance.m + second.distance.m
-            if lowest is None or total_distance < lowest[2]:
-                lowest = (first, second, total_distance)
+            segment_distance = first.location.distance(second.location)  # NOT SPHERICAL
+            corrected_distance = total_distance / segment_distance
+            if lowest is None or corrected_distance < lowest[2]:
+                lowest = (first, second, corrected_distance)
         # Work out the ratio between them and return that
         first, second, _ = lowest  # type: ignore
         ratio = first.distance.m / (first.distance.m + second.distance.m)
